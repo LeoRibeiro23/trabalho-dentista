@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Termos de Uso</title>
+</head>
+<body class="terms-body">
+    <main class="terms-card">
+        <h1>Termos de Uso</h1>
+        <p>Ao utilizar este site, você concorda com as condições básicas abaixo:</p>
+
+        <h2>Uso do site</h2>
+        <p>As informações deste site têm caráter informativo e não substituem uma avaliação ou orientação profissional de um cirurgião-dentista.</p>
+
+        <h2>Agendamentos e informações</h2>
+        <p>O usuário é responsável por fornecer informações corretas ao solicitar contato ou agendar um atendimento. Horários e serviços estão sujeitos à confirmação pela clínica.</p>
+
+        <h2>Privacidade</h2>
+        <p>Os dados enviados pelo usuário devem ser utilizados somente para responder solicitações e administrar atendimentos, respeitando a legislação aplicável de proteção de dados.</p>
+
+        <h2>Atualizações</h2>
+        <p>Estes termos podem ser atualizados para refletir mudanças no site ou nos serviços. Recomendamos consultá-los periodicamente.</p>
+
+        <button type="button" class="btn" id="agree-terms">Concordar</button>
+        <a class="back-link" href="index.html">Voltar ao login</a>
+    </main>
+    <script>
+        document.getElementById("agree-terms").addEventListener("click", function () {
+            window.location.assign("index.html?termos=aceitos");
+        });
+    </script>
+</body>
+</html>

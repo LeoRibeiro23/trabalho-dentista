@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Recuperar senha</title>
+</head>
+<body>
+    <main>
+        <form class="login-card" id="recovery-form">
+            <h1>Recuperar senha</h1>
+            <p class="form-message">Informe o e-mail usado no cadastro para solicitar a recuperação da senha.</p>
+            <label for="recovery-email" class="input-group">E-mail:</label>
+            <input type="email" id="recovery-email" name="email" autocomplete="email" required>
+            <button type="submit" class="btn">Solicitar recuperação</button>
+            <p id="recovery-message" class="form-message" role="status" aria-live="polite"></p>
+            <a class="back-link" href="index.html">Voltar ao login</a>
+        </form>
+    </main>
+    <script>
+        document.getElementById("recovery-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            document.getElementById("recovery-message").textContent =
+                "Para enviar o link de recuperação, é necessário conectar esta página a um servidor.";
+        });
+    </script>
+</body>
+</html>

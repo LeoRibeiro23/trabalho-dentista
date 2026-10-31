@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Criar conta</title>
+</head>
+<body>
+    <main>
+        <form class="login-card" id="register-form">
+            <h1>Criar conta</h1>
+            <label for="new-username" class="input-group">Nome de usuário:</label>
+            <input type="text" id="new-username" name="username" autocomplete="username" required>
+
+            <label for="new-email" class="input-group">E-mail:</label>
+            <input type="email" id="new-email" name="email" autocomplete="email" required>
+
+            <label for="new-password" class="input-group">Senha:</label>
+            <input type="password" id="new-password" name="password" autocomplete="new-password" required>
+
+            <label for="confirm-password" class="input-group">Confirme a senha:</label>
+            <input type="password" id="confirm-password" name="confirm-password" autocomplete="new-password" required>
+
+            <label for="accept-register-terms" class="terms-acceptance">
+                <input type="checkbox" id="accept-register-terms" name="termsAccepted" required>
+                <span>Li e concordo com os <a href="termos.html">termos</a>.</span>
+            </label>
+            <button type="submit" class="btn">Criar conta</button>
+            <p id="register-message" class="form-message" role="status" aria-live="polite"></p>
+            <p class="signup-link">Já tem conta? <a href="index.html">Entrar</a></p>
+        </form>
+    </main>
+    <script>
+        const registerForm = document.getElementById("register-form");
+        const password = document.getElementById("new-password");
+        const confirmPassword = document.getElementById("confirm-password");
+        const registerMessage = document.getElementById("register-message");
+
+        function validatePasswordMatch() {
+            confirmPassword.setCustomValidity(
+                confirmPassword.value === password.value ? "" : "As senhas não coincidem."
+            );
+        }
+
+        password.addEventListener("input", validatePasswordMatch);
+        confirmPassword.addEventListener("input", validatePasswordMatch);
+
+        registerForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            validatePasswordMatch();
+            if (!registerForm.reportValidity()) return;
+
+            registerMessage.textContent = "Criando sua conta...";
+            try {
+                const response = await fetch("/api/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: document.getElementById("new-username").value,
+                        email: document.getElementById("new-email").value,
+                        password: password.value,
+                        termsAccepted: document.getElementById("accept-register-terms").checked
+                    })
+                });
+                if (!response.headers.get("content-type")?.includes("application/json")) {
+                    registerMessage.textContent =
+                        "Servidor da aplicação não encontrado. Rode powershell -ExecutionPolicy Bypass -File iniciar.ps1 e abra http://localhost:3000.";
+                    return;
+                }
+                const result = await response.json();
+                if (!response.ok) {
+                    registerMessage.textContent = result.error || "Não foi possível criar a conta.";
+                    return;
+                }
+                registerMessage.textContent = result.message;
+                registerForm.reset();
+            } catch (error) {
+                registerMessage.textContent = error instanceof TypeError
+                    ? "Servidor indisponível. Rode powershell -ExecutionPolicy Bypass -File iniciar.ps1 e abra http://localhost:3000."
+                    : "Não foi possível concluir o cadastro. Tente novamente.";
+            }
+        });
+    </script>
+</body>
+</html>
